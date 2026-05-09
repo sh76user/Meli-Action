@@ -157,14 +157,14 @@ jobs:
           cd temp_dl
 
           if [ "$FILESIZE" -gt "$THRESH_BYTES" ]; then
-            echo "🔪 Splitting file (${FILESIZE} bytes) into ${THRESH_MB}MB parts..."
+            echo "🔪 Splitting file into ${THRESH_MB}MB parts..."
             BASE="${FILENAME%.*}"
-            zip -r -s "${THRESH_MB}m" "../${BASE}.zip" "$FILENAME"
-            rm "$FILENAME"
+            zip -r -s "${THRESH_MB}m" "../${BASE}.zip" -- "$FILENAME"
+            rm -- "$FILENAME"
             echo "✅ File successfully split."
           else
             echo "📦 File is small enough, no splitting needed."
-            mv "$FILENAME" ..
+            mv -- "$FILENAME" ..     # ← این خط اصلاح شد
           fi
           cd ..
 
